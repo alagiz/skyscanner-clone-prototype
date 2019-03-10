@@ -1,0 +1,33 @@
+version: '3.2'
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: air
+      POSTGRES_PASSWORD: airlock
+    volumes:
+      - /var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  airplane-react:
+    build:
+      context: ./react-app
+      dockerfile: Dockerfile
+    volumes:
+      - '/usr/src/app/node_modules'
+    command: npm start -p 3000 -b '0.0.0.0'
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    tty: true
+    depends_on:
+      - spring-boot-app
+  airplane-spring-boot:
+    build:
+      context: ./airplane-spring-boot
+      dockerfile: Dockerfile
+    restart: always
+    entrypoint: ["java",  "-jar", "/app.jar"]
+    ports:
+      - "3001:8080"
