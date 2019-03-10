@@ -61,7 +61,6 @@ class Filter extends Component {
   handleDestinationChange = value => this.setState({selectedDestination: value});
   handleDepartureDateChange = value => this.setState({selectedDepartureDate: value}, () => this.fetchFilteredFlights());
   handlePriceSliderChange = value => this.setState({selectedPriceRange: value}, () => this.fetchFilteredFlights());
-  handleFetchFlights = () => this.fetchFilteredFlights();
 
   fetchFilteredFlights = () => {
     axios.get(`${backendUrl}/flights/byOriginAndDestinationAndMinPriceMaxPriceAndDepartureDate`, {
@@ -138,10 +137,7 @@ class Filter extends Component {
                                   };
                                 }}
                                 dataSource={this.state.flights}/>;
-    const marks = {
-      0: '0 €',
-      100: '100 €'
-    };
+    const marks = {0: '0 €', 100: '100 €'};
     const priceRangeSlider = <Slider range
                                      onAfterChange={this.handlePriceSliderChange.bind(this)}
                                      defaultValue={this.state.selectedPriceRange}
