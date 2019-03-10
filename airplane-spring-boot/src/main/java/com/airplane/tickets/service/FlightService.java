@@ -19,17 +19,6 @@ public class FlightService {
         this.iFlightRepository = iFlightRepository;
     }
 
-    public List<Flight> getFlightsBetweenDates(Long arrivalStart, Long arrivalEnd) {
-        Timestamp startDate = new Timestamp(arrivalStart);
-        Timestamp endDate = new Timestamp(arrivalEnd);
-
-        return iFlightRepository.findByArrivalGreaterThanEqualAndArrivalLessThanEqual(startDate, endDate);
-    }
-
-    public List<Flight> getFlightsByOriginAndDestination(String origin, String destination) {
-        return iFlightRepository.findByOriginAndDestination(origin, destination);
-    }
-
     public List<Flight> getFlightsByOriginAndDestinationAndMinPriceMaxPriceAndDepartureDate(
             String origin,
             String destination,

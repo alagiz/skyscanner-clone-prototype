@@ -10,16 +10,6 @@ import java.util.List;
 
 @Repository
 public interface IFlightRepository extends CrudRepository<Flight, Long> {
-    List<Flight> findByArrivalGreaterThanEqualAndArrivalLessThanEqual(
-            @Param("arrivalStart") Timestamp arrivalStart,
-            @Param("arrivalEnd") Timestamp arrivalEnd
-    );
-
-    List<Flight> findByOriginAndDestination(
-            @Param("origin") String origin,
-            @Param("destination") String destination
-    );
-
     List<Flight> findByOriginAndDestinationAndPriceGreaterThanEqualAndPriceLessThanEqualAndDepartureGreaterThanEqualAndDepartureLessThanEqual(
             @Param("origin") String origin,
             @Param("destination") String destination,
@@ -27,6 +17,5 @@ public interface IFlightRepository extends CrudRepository<Flight, Long> {
             @Param("maxPrice") double maxPrice,
             @Param("departureDateStart") Timestamp departureDateStart,
             @Param("departureDateEnd") Timestamp departureDateEnd
-
     );
 }

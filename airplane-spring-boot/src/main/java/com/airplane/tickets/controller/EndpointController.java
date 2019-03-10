@@ -22,20 +22,6 @@ public class EndpointController {
         this.flightService = flightService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public List<Flight> getFlights(@RequestParam("dateFrom") final Long dateFrom,
-                                   @RequestParam("dateTo") final Long dateTo) {
-        return flightService.getFlightsBetweenDates(dateFrom, dateTo);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/byOriginAndDestination")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Flight> getFlightsByOriginAndDestination(@RequestParam("origin") final String origin,
-                                                         @RequestParam("destination") final String destination) {
-        return flightService.getFlightsByOriginAndDestination(origin, destination);
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/byOriginAndDestinationAndMinPriceMaxPriceAndDepartureDate")
     @ResponseStatus(HttpStatus.OK)
     public List<Flight> getFlightsByOriginAndDestinationAndMinPriceMaxPriceAndDepartureDate(
@@ -54,7 +40,6 @@ public class EndpointController {
                 departureDate,
                 departureEndDate
         );
-
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/origins")
