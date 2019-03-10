@@ -11,7 +11,7 @@ services:
       - "5432:5432"
   airplane-react:
     build:
-      context: ./react-app
+      context: ./airplane-react
       dockerfile: Dockerfile
     volumes:
       - '/usr/src/app/node_modules'
@@ -22,7 +22,7 @@ services:
       - NODE_ENV=development
     tty: true
     depends_on:
-      - spring-boot-app
+      - airplane-spring-boot
   airplane-spring-boot:
     build:
       context: ./airplane-spring-boot

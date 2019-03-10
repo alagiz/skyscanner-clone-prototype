@@ -23,6 +23,7 @@ class Filter extends Component {
     sliderDisabled: true,
     selectedDepartureDate: moment(),
     datePickerDisabled: true,
+    selectedFlight: null,
     flights: []
   };
 
@@ -55,7 +56,7 @@ class Filter extends Component {
       });
   };
 
-  handleToPurchase = () => this.props.history.replace('/purchase', {onlineMode: this.state.origin});
+  handleToPurchase = () => this.props.history.replace('/purchase', {selectedFlight: this.state.selectedFlight});
   handleOriginChange = value => this.setState({selectedOrigin: value});
   handleDestinationChange = value => this.setState({selectedDestination: value});
   handleDepartureDateChange = value => this.setState({selectedDepartureDate: value}, () => this.fetchFilteredFlights());
@@ -98,35 +99,85 @@ class Filter extends Component {
       {
         title: 'Origin',
         dataIndex: 'origin',
-        key: 'origin'
+        key: 'origin',
+        width: 150
       },
       {
         title: 'Destination',
         dataIndex: 'destination',
-        key: 'destination'
-      },
-      {
-        title: 'Price',
-        dataIndex: 'price',
-        key: 'price'
+        key: 'destination',
+        width: 150
       },
       {
         title: 'Departure',
         dataIndex: 'departure',
-        key: 'departure'
+        key: 'departure',
+        width: 150
+      },
+      {
+        title: 'Price',
+        dataIndex: 'price',
+        key: 'price',
+        width: 150
       }
     ];
     const flightsTable = <Table columns={flightsTableColumns}
+                                scroll={{y: 270}}
+                                rowKey={(record, index) => record.id}
+                                rowClassName={ (record, index) => this.state.selectedRowIndex === index ? 'selected-row' : ''}
+                                onRow={(record, rowIndex) => {
+                                  return {
+                                    onClick: event => {
+                                      const isDeselecting = this.state.selectedRowIndex === rowIndex;
+
+                                      this.setState({
+                                        selectedRowIndex: isDeselecting ? null : rowIndex,
+                                        selectedFlight: isDeselecting ? null : this.state.flights.find(flight => flight.id === record.id)
+                                      })
+                                    }
+                                  };
+                                }}
                                 dataSource={this.state.flights}/>;
     const marks = {
       0: '0 €',
       100: '100 €'
     };
     const priceRangeSlider = <Slider range
-      // disabled={this.state.sliderDisabled}
                                      onAfterChange={this.handlePriceSliderChange.bind(this)}
                                      defaultValue={this.state.selectedPriceRange}
                                      marks={marks}/>;
+    const middleBody = isNil(this.state.selectedOrigin) || isNil(this.state.selectedDestination) ? '' :
+      <div className="middle-body">
+        <div className="middle-body-top-panel">
+          <div className="middle-body-top-left-panel">
+            <div className="middle-body-top-left-panel-label">
+              Price range:
+            </div>
+            <div className="middle-body-top-left-panel-slider">
+              {priceRangeSlider}
+            </div>
+            <div className="middle-body-top-left-panel-label">
+              Departure date:
+            </div>
+            <div className="middle-body-top-left-panel-date-picker">
+              <DatePicker defaultValue={this.state.selectedDepartureDate}
+                          allowClear={false}
+                          onChange={this.handleDepartureDateChange.bind(this)}/>
+            </div>
+          </div>
+          <div className="middle-flight-list-container">
+            {flightsTable}
+          </div>
+        </div>
+        <div className="middle-button-container">
+          <button type="button"
+                  disabled={isNil(this.state.selectedFlight)}
+                  className="form-submit to-purchase-button"
+                  onClick={this.handleToPurchase.bind(this)}>
+            Purchase that shit
+          </button>
+        </div>
+      </div>;
 
     return (
       <div className="wrapper">
@@ -166,46 +217,8 @@ class Filter extends Component {
                   {optionsDestinations}
                 </Select>
               </div>
-              <div className="middle-fetch-flights-button-container">
-                <button type="button"
-                        className="fetch-flights form-submit"
-                        disabled={isNil(this.state.selectedOrigin) || isNil(this.state.selectedDestination)}
-                        onClick={this.handleFetchFlights.bind(this)}>
-                  Fetch them flights
-                </button>
-              </div>
             </div>
-            <div className="middle-body">
-              <div className="middle-body-top-panel">
-                <div className="middle-body-top-left-panel">
-                  <div className="middle-body-top-left-panel-label">
-                    Price range:
-                  </div>
-                  <div className="middle-body-top-left-panel-slider">
-                    {priceRangeSlider}
-                  </div>
-                  <div className="middle-body-top-left-panel-label">
-                    Departure date:
-                  </div>
-                  <div className="middle-body-top-left-panel-date-picker">
-                    <DatePicker defaultValue={this.state.selectedDepartureDate}
-                                allowClear={false}
-                      // disabled={this.state.datePickerDisabled}
-                                onChange={this.handleDepartureDateChange.bind(this)}/>
-                  </div>
-                </div>
-                <div className="middle-flight-list-container">
-                  {flightsTable}
-                </div>
-              </div>
-              <div className="middle-button-container">
-                <button type="button"
-                        className="form-submit to-purchase-button"
-                        onClick={this.handleToPurchase.bind(this)}>
-                  Purchase that shit
-                </button>
-              </div>
-            </div>
+            {middleBody}
           </div>
           <div className="footer">
             footer

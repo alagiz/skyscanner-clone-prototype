@@ -41,13 +41,13 @@
     height: 100%;
 }
 
-.middle-body-top-panel{
+.middle-body-top-panel {
     display: flex;
 }
 
 .middle-body-top-left-panel {
     width: 20rem;
-    background: #d5dd00;
+    background: #E2E6EC;
     padding: 10px;
 }
 
@@ -55,12 +55,27 @@
     padding: 10px 30px;
 }
 
+.ant-table-fixed-header .ant-table-scroll .ant-table-header {
+    overflow-y: auto;
+}
+
 .ant-calendar-picker {
     width: 280px;
 }
 
-.ant-calendar-picker-container{
-    /*top: 329px !important;*/
+.selected-row {
+    background: #7081A2;
+    color: white;
+}
+
+.selected-row > td {
+    background: #7081A2 !important;
+    color: white;
+}
+
+.selected-row:hover {
+    background: #7081A2 !important;
+    color: white !important;
 }
 
 .middle-body-top-left-panel-date-picker {
