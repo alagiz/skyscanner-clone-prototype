@@ -69,8 +69,8 @@ class Filter extends Component {
         destination: this.state.selectedDestination,
         minPrice: this.state.selectedPriceRange[0],
         maxPrice: this.state.selectedPriceRange[1],
-        departureDate: this.state.selectedDepartureDate.valueOf(),
-        departureEndDate: this.state.selectedDepartureDate.clone().add(1, 'days').valueOf()
+        departureDate: this.state.selectedDepartureDate.startOf('day').valueOf(),
+        departureEndDate: this.state.selectedDepartureDate.endOf('day').valueOf()
       }
     })
       .then(response => {
