@@ -195,6 +195,7 @@ class Filter extends Component {
             <div className="middle-body-top-left-panel-date-picker">
               <DatePicker defaultValue={this.state.selectedDepartureDate}
                           allowClear={false}
+                          format="MMMM Do YYYY"
                           onChange={this.handleDepartureDateChange.bind(this)}/>
             </div>
           </div>
