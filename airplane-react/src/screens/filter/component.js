@@ -133,7 +133,7 @@ class Filter extends Component {
         dataIndex: 'departure',
         key: 'departure',
         width: 150,
-        render: date => moment(date).format('YYYY-MM-DD HH:MM:SS'),
+        render: date => moment(date).format('MMMM Do YYYY, h:mm:ss a'),
         sorter: (a, b) => moment(a.departure).valueOf() - moment(b.departure).valueOf(),
         sortDirections: ['descend', 'ascend'],
         defaultSortOrder: 'ascend'
@@ -143,7 +143,7 @@ class Filter extends Component {
         dataIndex: 'arrival',
         key: 'arrival',
         width: 150,
-        render: date => moment(date).format('YYYY-MM-DD HH:MM:SS'),
+        render: date => moment(date).format('MMMM Do YYYY, h:mm:ss a'),
         sorter: (a, b) => moment(a.arrival).valueOf() - moment(b.arrival).valueOf(),
         sortDirections: ['descend', 'ascend']
       },

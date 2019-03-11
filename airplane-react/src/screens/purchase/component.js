@@ -57,8 +57,8 @@ class Purchase extends Component {
               <p>Origin: {origin}</p>
               <p>Destination: {destination}</p>
               <p>Price: €{price}</p>
-              <p>Departure date: {moment(departure).format('YYYY-MM-DD HH:MM:SS')}</p>
-              <p>Arrival date: {moment(arrival).format('YYYY-MM-DD HH:MM:SS')}</p>
+              <p>Departure date: {moment(departure).format('MMMM Do YYYY, h:mm:ss a')}</p>
+              <p>Arrival date: {moment(arrival).format('MMMM Do YYYY, h:mm:ss a')}</p>
             </Card>
           </div>
           <div className="middle-buttons">

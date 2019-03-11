@@ -58,6 +58,7 @@
 
 .ant-table-fixed-header .ant-table-scroll .ant-table-header {
     overflow-y: auto;
+    margin-right: 17px;
 }
 
 .ant-calendar-picker {

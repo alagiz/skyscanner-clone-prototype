@@ -22,3 +22,7 @@
     align-items: flex-start;
     flex: 1;
 }
+
+.ant-card {
+    width: 350px !important;
+}
