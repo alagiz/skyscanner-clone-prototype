@@ -34,11 +34,11 @@ class Filter extends Component {
   componentDidMount() {
     this.fetchOriginAndDestinationLists();
 
-    window.addEventListener('resize', this.update);
+    window.addEventListener('resize', this.updateHeight);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.update);
+    window.removeEventListener('resize', this.updateHeight);
   }
 
   fetchOriginAndDestinationLists = () => {
@@ -72,7 +72,7 @@ class Filter extends Component {
     return !(isNil(selectedOrigin) || isNil(selectedDestination) || isEmpty(selectedPriceRange) || isNil(selectedDepartureDate));
   };
   resetSelection = () => this.setState({selectedRowIndex: null, selectedFlight: null});
-  update = () => this.setState({height: window.innerHeight});
+  updateHeight = () => this.setState({height: window.innerHeight});
   handleToPurchase = () => this.props.history.replace('/purchase', {selectedFlight: this.state.selectedFlight});
   handleOriginChange = value => this.setState({selectedOrigin: value}, () => this.fetchFilteredFlights());
   handleDestinationChange = value => this.setState({selectedDestination: value}, () => this.fetchFilteredFlights());
@@ -153,14 +153,14 @@ class Filter extends Component {
     const flightsTable = <Table columns={flightsTableColumns}
                                 scroll={{y: this.state.height / 2.2}}
                                 rowKey={(record, index) => record.id}
-                                rowClassName={ (record, index) => this.state.selectedRowIndex === index ? 'selected-row' : ''}
+                                rowClassName={ (record, index) => this.state.selectedRowIndex === record.id ? 'selected-row' : ''}
                                 onRow={(record, rowIndex) => {
                                   return {
                                     onClick: event => {
                                       const isDeselecting = this.state.selectedRowIndex === rowIndex;
 
                                       this.setState({
-                                        selectedRowIndex: isDeselecting ? null : rowIndex,
+                                        selectedRowIndex: isDeselecting ? null : record.id,
                                         selectedFlight: isDeselecting ? null : this.state.flights.find(flight => flight.id === record.id)
                                       })
                                     }
