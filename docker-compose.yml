@@ -31,5 +31,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     entrypoint: ["java",  "-jar", "/app.jar"]
+    depends_on:
+      - postgres
     ports:
       - "3001:8080"

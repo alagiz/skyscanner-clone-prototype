@@ -20,8 +20,6 @@ class Filter extends Component {
     isLoading: false,
     origin: [],
     destination: [],
-    exclusiveOrigin: [],
-    exclusiveDestination: [],
     selectedOrigin: null,
     selectedDestination: null,
     selectedPriceRange: [0, 100],
@@ -50,14 +48,14 @@ class Filter extends Component {
       .then(response => {
         const jsonResponse = response.data;
 
-        this.setState({origin: jsonResponse, exclusiveOrigin: jsonResponse});
+        this.setState({origin: jsonResponse});
 
         return axios.get(`${backendUrl}/flights/destinations`);
       })
       .then(response => {
         const jsonResponse = response.data;
 
-        this.setState({isLoading: false, destination: jsonResponse, exclusiveDestination: jsonResponse});
+        this.setState({isLoading: false, destination: jsonResponse});
       })
       .catch(error => {
         const errorResponse = error.response;
@@ -73,19 +71,11 @@ class Filter extends Component {
 
     return !(isNil(selectedOrigin) || isNil(selectedDestination) || isEmpty(selectedPriceRange) || isNil(selectedDepartureDate));
   };
-  updateExclusiveOrigin = destination => this.setState({exclusiveOrigin: this.state.exclusiveOrigin.filter(city => city !== destination)});
-  updateExclusiveDestination = origin => this.setState({exclusiveDestination: this.state.exclusiveDestination.filter(city => city !== origin)});
   resetSelection = () => this.setState({selectedRowIndex: null, selectedFlight: null});
   update = () => this.setState({height: window.innerHeight});
   handleToPurchase = () => this.props.history.replace('/purchase', {selectedFlight: this.state.selectedFlight});
-  handleOriginChange = value => this.setState({selectedOrigin: value}, () => {
-    this.fetchFilteredFlights();
-    this.updateExclusiveDestination(value);
-  });
-  handleDestinationChange = value => this.setState({selectedDestination: value}, () => {
-    this.fetchFilteredFlights();
-    this.updateExclusiveOrigin(value);
-  });
+  handleOriginChange = value => this.setState({selectedOrigin: value}, () => this.fetchFilteredFlights());
+  handleDestinationChange = value => this.setState({selectedDestination: value}, () => this.fetchFilteredFlights());
   handleDepartureDateChange = value => this.setState({selectedDepartureDate: value}, () => this.fetchFilteredFlights());
   handlePriceSliderChange = value => this.setState({selectedPriceRange: value}, () => this.fetchFilteredFlights());
 
