@@ -32,7 +32,6 @@ class Purchase extends Component {
 
   render() {
     const selectedFlight = this.props.history.location.state.selectedFlight;
-
     const {origin, destination, price, departure, arrival} = selectedFlight;
 
     return (
@@ -46,12 +45,11 @@ class Purchase extends Component {
         </div>
         <div className="container">
           <div className="header">
-            header
+            Ticket booking system, book your dream trip, innit
           </div>
           <div className="middle">
-            middle
             <div style={{background: '#ECECEC', padding: '30px'}}>
-              <Card title="Card title"
+              <Card title="Chosen ticket"
                     bordered={false}
                     style={{width: 300}}>
                 <p>from: {origin}</p>
@@ -75,7 +73,7 @@ class Purchase extends Component {
             </button>
           </div>
           <div className="footer">
-            footer
+            Contact info: mista V from building 24
           </div>
         </div>
       </div>

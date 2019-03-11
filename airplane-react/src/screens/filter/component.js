@@ -24,11 +24,14 @@ class Filter extends Component {
     selectedDepartureDate: moment(),
     datePickerDisabled: true,
     selectedFlight: null,
-    flights: []
+    flights: [],
+    height: window.innerHeight
   };
 
   componentDidMount() {
     this.fetchOriginAndDestinationLists();
+
+    window.addEventListener('resize', this.update);
   }
 
   fetchOriginAndDestinationLists = () => {
@@ -56,6 +59,7 @@ class Filter extends Component {
       });
   };
 
+  update = () => this.setState({height: window.innerHeight});
   handleToPurchase = () => this.props.history.replace('/purchase', {selectedFlight: this.state.selectedFlight});
   handleOriginChange = value => this.setState({selectedOrigin: value});
   handleDestinationChange = value => this.setState({selectedDestination: value});
@@ -121,7 +125,7 @@ class Filter extends Component {
       }
     ];
     const flightsTable = <Table columns={flightsTableColumns}
-                                scroll={{y: 270}}
+                                scroll={{y:  this.state.height / 2.2}}
                                 rowKey={(record, index) => record.id}
                                 rowClassName={ (record, index) => this.state.selectedRowIndex === index ? 'selected-row' : ''}
                                 onRow={(record, rowIndex) => {
@@ -186,7 +190,7 @@ class Filter extends Component {
         </div>
         <div className="filter-container">
           <div className="header">
-            header
+            Ticket booking system, book your dream trip, innit
           </div>
           <div className="middle">
             <div className="middle-head">
@@ -217,7 +221,7 @@ class Filter extends Component {
             {middleBody}
           </div>
           <div className="footer">
-            footer
+            Contact info: mista V from building 24
           </div>
         </div>
       </div>

@@ -15,6 +15,7 @@
 
 .middle-flight-list-container {
     flex: 1;
+    overflow: auto;
 }
 
 .form-submit {
