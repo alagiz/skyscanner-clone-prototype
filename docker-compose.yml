@@ -3,6 +3,7 @@ services:
   postgres:
     build:
       context: ./postgres
+      dockerfile: Dockerfile
     environment:
       POSTGRES_DB: air
       POSTGRES_PASSWORD: airlock

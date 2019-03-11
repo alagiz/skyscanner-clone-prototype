@@ -11,7 +11,7 @@ import Header from '../../components/header/component';
 import Footer from '../../components/footer/component';
 import TitleBar from '../../components/title-bar/component';
 
-const backendUrl = `http://localhost:8080`;
+const backendUrl = `http://${window.location.hostname}:3001`;
 
 const Option = Select.Option;
 
@@ -113,7 +113,7 @@ class Filter extends Component {
 
           this.setState({isLoading: false});
 
-          console.log(`errorss! ${errorResponse}`);
+          console.log(`error! ${errorResponse}`);
         });
     }
   };
