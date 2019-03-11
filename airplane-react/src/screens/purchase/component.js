@@ -26,7 +26,12 @@ class Purchase extends Component {
     const selectedFlight = this.state.selectedFlight;
     const {origin, destination, price, departure, arrival} = selectedFlight;
 
-    alert(`you bought that shit: from ${origin} to ${destination} on ${departure} arriving on ${arrival} for ${price} euros, ya stupid fuck`)
+    alert(`you bought that shit: 
+                          from ${origin} 
+                          to ${destination} 
+                          on ${moment(departure).format('YYYY-MM-DD HH:MM:SS')} 
+                          arriving on ${moment(arrival).format('YYYY-MM-DD HH:MM:SS')} 
+                          for ${price} euros, ya stupid fuck`)
   };
 
   handleBackStep = () => this.props.history.replace('/');
@@ -49,7 +54,8 @@ class Purchase extends Component {
             Ticket booking system, book your dream trip, innit
           </div>
           <div className="middle">
-            <div className="middle-card-container" style={{background: '#E2E6EC', padding: '30px'}}>
+            <div className="middle-card-container"
+                 style={{background: '#E2E6EC', padding: '30px'}}>
               <Card title="Chosen flight"
                     bordered={false}
                     style={{width: 300}}>
