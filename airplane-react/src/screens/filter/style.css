@@ -132,6 +132,10 @@
     margin: 0.5rem;
 }
 
+.ant-table-row {
+    cursor: pointer;
+}
+
 .middle-button-container {
     display: flex;
     justify-content: flex-end;

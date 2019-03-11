@@ -133,21 +133,28 @@ class Filter extends Component {
         dataIndex: 'departure',
         key: 'departure',
         width: 150,
-        render: date => moment(date).format('YYYY-MM-DD HH:MM:SS')
+        render: date => moment(date).format('YYYY-MM-DD HH:MM:SS'),
+        sorter: (a, b) => moment(a.departure).valueOf() - moment(b.departure).valueOf(),
+        sortDirections: ['descend', 'ascend'],
+        defaultSortOrder: 'ascend'
       },
       {
         title: 'Arrival',
         dataIndex: 'arrival',
         key: 'arrival',
         width: 150,
-        render: date => moment(date).format('YYYY-MM-DD HH:MM:SS')
+        render: date => moment(date).format('YYYY-MM-DD HH:MM:SS'),
+        sorter: (a, b) => moment(a.arrival).valueOf() - moment(b.arrival).valueOf(),
+        sortDirections: ['descend', 'ascend']
       },
       {
         title: 'Price',
         dataIndex: 'price',
         key: 'price',
         width: 150,
-        render: price => `€${price}`
+        render: price => `€${price}`,
+        sorter: (a, b) => a.price - b.price,
+        sortDirections: ['descend', 'ascend']
       }
     ];
     const flightsTable = <Table columns={flightsTableColumns}
