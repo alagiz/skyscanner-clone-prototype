@@ -2,28 +2,39 @@ DROP TABLE IF EXISTS flight;
 
 CREATE TABLE flight (
   id          SERIAL           NOT NULL PRIMARY KEY,
-  departure   TIMESTAMP,
-  arrival     TIMESTAMP,
+  departure   TIMESTAMP        NOT NULL,
+  arrival     TIMESTAMP        NOT NULL,
   origin      VARCHAR(255)     NOT NULL,
   destination VARCHAR(255)     NOT NULL,
   price       DOUBLE PRECISION NOT NULL
 );
 
-INSERT INTO flight (departure, arrival, origin, destination, price) VALUES
-  ('2019-04-20T10:23:54', '2019-04-20T12:23:54', 'Amsterdam', 'Milan', 23.6),
-  ('2019-04-20T10:23:54', '2019-04-20T12:23:54', 'Amsterdam', 'Milan', 23.6),
-  ('2019-04-20T10:23:54', '2019-04-20T12:23:54', 'Amsterdam', 'Milan', 23.6),
-  ('2019-04-20T10:23:54', '2019-04-20T12:23:54', 'Amsterdam', 'Milan', 23.6),
-  ('2019-04-20T10:23:54', '2019-04-20T12:23:54', 'Amsterdam', 'Milan', 23.6),
-  ('2019-04-20T10:23:54', '2019-04-20T12:23:54', 'Amsterdam', 'Milan', 23.6),
-  ('2019-04-20T10:23:54', '2019-04-20T12:23:54', 'Amsterdam', 'Milan', 23.6),
-  ('2019-04-20T10:23:54', '2019-04-20T12:23:54', 'Amsterdam', 'Milan', 23.6),
-  ('2019-04-20T10:23:54', '2019-04-20T12:23:54', 'Amsterdam', 'Milan', 23.6),
-  ('2019-04-20T10:23:54', '2019-04-20T12:23:54', 'Amsterdam', 'Milan', 23.6),
-  ('2019-04-21T10:23:54', '2019-04-21T12:23:54', 'Amsterdam', 'Milan', 25.6),
-  ('2019-04-22T10:23:54', '2019-04-22T12:23:54', 'Amsterdam', 'Milan', 53.6),
-  ('2019-04-23T10:23:54', '2019-04-23T12:23:54', 'Amsterdam', 'Milan', 63.6),
-  ('2019-04-24T10:23:54', '2019-04-24T12:23:54', 'Amsterdam', 'Milan', 73.6),
-  ('2019-04-25T10:23:54', '2019-04-25T12:23:54', 'Amsterdam', 'Milan', 13.6),
-  ('2019-04-26T10:23:54', '2019-04-26T12:23:54', 'Amsterdam', 'Milan', 23.6),
-  ('2019-04-22T10:00:01', '2019-04-23T18:20:54', 'Eindhoven', 'London', 56.8);
+CREATE OR REPLACE FUNCTION random_between(low INT, high INT)
+  RETURNS INT AS
+$$
+BEGIN
+  RETURN floor(random() * (high - low + 1) + low);
+END;
+$$ LANGUAGE plpgsql STRICT;
+
+CREATE OR REPLACE FUNCTION random_pick()
+  RETURNS VARCHAR AS
+$func$
+DECLARE
+  city VARCHAR [] := '{Amsterdam,Milan,London,Oslo,Vienna,Porto,Venice,Lyon,Edinburgh,Stockholm,Athens}';
+BEGIN
+  RETURN city [random_between(1, 10)];
+END
+$func$ LANGUAGE plpgsql VOLATILE;
+
+DO $$
+BEGIN
+  FOR counter IN 1..100000 LOOP
+    INSERT INTO flight (departure, arrival, origin, destination, price) VALUES
+      (now() + (random() * (INTERVAL '30 days')),
+       now() + '30 days' + (random() * (INTERVAL '30 days')),
+       random_pick(),
+       random_pick(),
+       random_between(1, 100));
+  END LOOP;
+END; $$;
