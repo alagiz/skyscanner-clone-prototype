@@ -9,7 +9,7 @@ CREATE TABLE flight (
   price       DOUBLE PRECISION NOT NULL
 );
 
-CREATE OR REPLACE FUNCTION random_between(low INT, high INT)
+CREATE OR REPLACE FUNCTION random_int_between(low INT, high INT)
   RETURNS INT AS
 $$
 BEGIN
@@ -23,18 +23,24 @@ $func$
 DECLARE
   city VARCHAR [] := '{Amsterdam,Milan,London,Oslo,Vienna,Porto,Venice,Lyon,Edinburgh,Stockholm,Athens}';
 BEGIN
-  RETURN city [random_between(1, 10)];
+  RETURN city [random_int_between(1, 10)];
 END
 $func$ LANGUAGE plpgsql VOLATILE;
 
 DO $$
 BEGIN
-  FOR counter IN 1..100000 LOOP
-    INSERT INTO flight (departure, arrival, origin, destination, price) VALUES
+  FOR _ IN 1..100000 LOOP
+    INSERT INTO flight (
+      departure,
+      arrival,
+      origin,
+      destination,
+      price
+    ) VALUES
       (now() + (random() * (INTERVAL '30 days')),
        now() + '30 days' + (random() * (INTERVAL '30 days')),
        random_city(),
        random_city(),
-       random_between(1, 100));
+       random_int_between(1, 100));
   END LOOP;
 END; $$;
