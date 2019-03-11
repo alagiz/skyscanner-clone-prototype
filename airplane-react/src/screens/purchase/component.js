@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Card} from 'antd';
+import moment from 'moment';
 import 'antd/dist/antd.css';
 import './style.css';
 
@@ -49,14 +50,14 @@ class Purchase extends Component {
           </div>
           <div className="middle">
             <div className="middle-card-container" style={{background: '#E2E6EC', padding: '30px'}}>
-              <Card title="Chosen ticket"
+              <Card title="Chosen flight"
                     bordered={false}
                     style={{width: 300}}>
-                <p>from: {origin}</p>
-                <p>to: {destination}</p>
-                <p>price: {price}</p>
-                <p>departure date: {departure}</p>
-                <p>arrival date: {arrival}</p>
+                <p>Origin: {origin}</p>
+                <p>Destination: {destination}</p>
+                <p>Price: €{price}</p>
+                <p>Departure date: {moment(departure).format('YYYY-MM-DD HH:MM:SS')}</p>
+                <p>Arrival date: {moment(arrival).format('YYYY-MM-DD HH:MM:SS')}</p>
               </Card>
             </div>
             <div className="middle-buttons">

@@ -5,7 +5,7 @@ import {DatePicker, Select, Slider, Table} from 'antd';
 import 'antd/dist/antd.css';
 import './style.css';
 
-import {isNil} from 'ramda';
+import {isEmpty, isNil} from 'ramda';
 import {SpiralSpinner} from 'react-spinners-kit';
 
 const backendUrl = `http://localhost:8080`;
@@ -59,36 +59,46 @@ class Filter extends Component {
       });
   };
 
+  isDataForFlightFetchingDefined = () => {
+    const {selectedOrigin, selectedDestination, selectedPriceRange, selectedDepartureDate} = this.state;
+
+    return !(isNil(selectedOrigin) || isNil(selectedDestination) || isEmpty(selectedPriceRange) || isNil(selectedDepartureDate));
+  };
+  resetSelection = () => this.setState({selectedRowIndex: null, selectedFlight: null});
   update = () => this.setState({height: window.innerHeight});
   handleToPurchase = () => this.props.history.replace('/purchase', {selectedFlight: this.state.selectedFlight});
-  handleOriginChange = value => this.setState({selectedOrigin: value});
-  handleDestinationChange = value => this.setState({selectedDestination: value});
+  handleOriginChange = value => this.setState({selectedOrigin: value}, () => this.fetchFilteredFlights());
+  handleDestinationChange = value => this.setState({selectedDestination: value}, () => this.fetchFilteredFlights());
   handleDepartureDateChange = value => this.setState({selectedDepartureDate: value}, () => this.fetchFilteredFlights());
   handlePriceSliderChange = value => this.setState({selectedPriceRange: value}, () => this.fetchFilteredFlights());
 
   fetchFilteredFlights = () => {
-    axios.get(`${backendUrl}/flights/byOriginAndDestinationAndMinPriceMaxPriceAndDepartureDate`, {
-      params: {
-        origin: this.state.selectedOrigin,
-        destination: this.state.selectedDestination,
-        minPrice: this.state.selectedPriceRange[0],
-        maxPrice: this.state.selectedPriceRange[1],
-        departureDate: this.state.selectedDepartureDate.startOf('day').valueOf(),
-        departureEndDate: this.state.selectedDepartureDate.endOf('day').valueOf()
-      }
-    })
-      .then(response => {
-        const jsonResponse = response.data;
+    if (this.isDataForFlightFetchingDefined()) {
+      this.resetSelection();
 
-        this.setState({isLoading: false, flights: jsonResponse});
+      axios.get(`${backendUrl}/flights/byOriginAndDestinationAndMinPriceMaxPriceAndDepartureDate`, {
+        params: {
+          origin: this.state.selectedOrigin,
+          destination: this.state.selectedDestination,
+          minPrice: this.state.selectedPriceRange[0],
+          maxPrice: this.state.selectedPriceRange[1],
+          departureDate: this.state.selectedDepartureDate.startOf('day').valueOf(),
+          departureEndDate: this.state.selectedDepartureDate.endOf('day').valueOf()
+        }
       })
-      .catch(error => {
-        const errorResponse = error.response;
+        .then(response => {
+          const jsonResponse = response.data;
 
-        this.setState({isLoading: false});
+          this.setState({isLoading: false, flights: jsonResponse});
+        })
+        .catch(error => {
+          const errorResponse = error.response;
 
-        console.log(`errorss! ${errorResponse}`);
-      });
+          this.setState({isLoading: false});
+
+          console.log(`errorss! ${errorResponse}`);
+        });
+    }
   };
 
   render() {
@@ -115,17 +125,26 @@ class Filter extends Component {
         title: 'Departure',
         dataIndex: 'departure',
         key: 'departure',
-        width: 150
+        width: 150,
+        render: date => moment(date).format('YYYY-MM-DD HH:MM:SS')
+      },
+      {
+        title: 'Arrival',
+        dataIndex: 'arrival',
+        key: 'arrival',
+        width: 150,
+        render: date => moment(date).format('YYYY-MM-DD HH:MM:SS')
       },
       {
         title: 'Price',
         dataIndex: 'price',
         key: 'price',
-        width: 150
+        width: 150,
+        render: price => `€${price}`
       }
     ];
     const flightsTable = <Table columns={flightsTableColumns}
-                                scroll={{y:  this.state.height / 2.2}}
+                                scroll={{y: this.state.height / 2.2}}
                                 rowKey={(record, index) => record.id}
                                 rowClassName={ (record, index) => this.state.selectedRowIndex === index ? 'selected-row' : ''}
                                 onRow={(record, rowIndex) => {
