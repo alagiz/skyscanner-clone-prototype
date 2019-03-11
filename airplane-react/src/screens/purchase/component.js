@@ -48,7 +48,7 @@ class Purchase extends Component {
             Ticket booking system, book your dream trip, innit
           </div>
           <div className="middle">
-            <div style={{background: '#ECECEC', padding: '30px'}}>
+            <div className="middle-card-container" style={{background: '#E2E6EC', padding: '30px'}}>
               <Card title="Chosen ticket"
                     bordered={false}
                     style={{width: 300}}>
@@ -59,18 +59,20 @@ class Purchase extends Component {
                 <p>arrival date: {arrival}</p>
               </Card>
             </div>
-            <button type="button"
-                    disabled={isNil(this.state.selectedFlight)}
-                    className="form-submit to-purchase-button"
-                    onClick={this.handlePurchase.bind(this)}>
-              Purchase that shit
-            </button>
-            <button type="button"
-                    disabled={isNil(this.state.selectedFlight)}
-                    className="form-submit to-purchase-button"
-                    onClick={this.handleBackStep.bind(this)}>
-              Back to selection
-            </button>
+            <div className="middle-buttons">
+              <button type="button"
+                      disabled={isNil(this.state.selectedFlight)}
+                      className="form-submit to-purchase-button"
+                      onClick={this.handleBackStep.bind(this)}>
+                Back to selection
+              </button>
+              <button type="button"
+                      disabled={isNil(this.state.selectedFlight)}
+                      className="form-submit to-purchase-button"
+                      onClick={this.handlePurchase.bind(this)}>
+                Purchase that shit
+              </button>
+            </div>
           </div>
           <div className="footer">
             Contact info: mista V from building 24
