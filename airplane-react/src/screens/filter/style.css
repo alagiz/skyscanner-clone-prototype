@@ -118,6 +118,7 @@
 }
 
 .middle-origin-destination-filters-label {
+    font-family: 'Roboto', sans-serif;
     margin-left: 0.5rem;
     margin-right: 0.5rem;
 }
@@ -131,15 +132,10 @@
     margin: 0.5rem;
 }
 
-.middle-title {
-    display: flex;
-    justify-content: center;
-    font-size: 3em;
-}
-
 .middle-button-container {
     display: flex;
     justify-content: flex-end;
+    padding-bottom: 8px;
 }
 
 .to-purchase-button {

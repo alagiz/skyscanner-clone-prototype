@@ -49,30 +49,10 @@ body {
   align-items: center;
 }
 
-.header {
-  font-family: 'Roboto', sans-serif;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #374F7D;
-  height: 3em;
-  padding-left: 10px;
-  color: white;
-}
-
 .container {
   height: 100%;
 }
 
-.footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #546890;
-  height: 3em;
-  padding-left: 10px;
-  color: white;
-}
 
 #root {
   display: flex;

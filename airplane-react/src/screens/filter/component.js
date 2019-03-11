@@ -2,11 +2,14 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import {DatePicker, Select, Slider, Table} from 'antd';
+import {isEmpty, isNil} from 'ramda';
+import {SpiralSpinner} from 'react-spinners-kit';
 import 'antd/dist/antd.css';
 import './style.css';
 
-import {isEmpty, isNil} from 'ramda';
-import {SpiralSpinner} from 'react-spinners-kit';
+import Header from '../../components/header/component';
+import Footer from '../../components/footer/component';
+import TitleBar from '../../components/title-bar/component';
 
 const backendUrl = `http://localhost:8080`;
 
@@ -17,6 +20,8 @@ class Filter extends Component {
     isLoading: false,
     origin: [],
     destination: [],
+    exclusiveOrigin: [],
+    exclusiveDestination: [],
     selectedOrigin: null,
     selectedDestination: null,
     selectedPriceRange: [0, 100],
@@ -34,6 +39,10 @@ class Filter extends Component {
     window.addEventListener('resize', this.update);
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.update);
+  }
+
   fetchOriginAndDestinationLists = () => {
     this.setState({isLoading: true});
 
@@ -41,14 +50,14 @@ class Filter extends Component {
       .then(response => {
         const jsonResponse = response.data;
 
-        this.setState({origin: jsonResponse});
+        this.setState({origin: jsonResponse, exclusiveOrigin: jsonResponse});
 
         return axios.get(`${backendUrl}/flights/destinations`);
       })
       .then(response => {
         const jsonResponse = response.data;
 
-        this.setState({isLoading: false, destination: jsonResponse});
+        this.setState({isLoading: false, destination: jsonResponse, exclusiveDestination: jsonResponse});
       })
       .catch(error => {
         const errorResponse = error.response;
@@ -64,11 +73,19 @@ class Filter extends Component {
 
     return !(isNil(selectedOrigin) || isNil(selectedDestination) || isEmpty(selectedPriceRange) || isNil(selectedDepartureDate));
   };
+  updateExclusiveOrigin = destination => this.setState({exclusiveOrigin: this.state.exclusiveOrigin.filter(city => city !== destination)});
+  updateExclusiveDestination = origin => this.setState({exclusiveDestination: this.state.exclusiveDestination.filter(city => city !== origin)});
   resetSelection = () => this.setState({selectedRowIndex: null, selectedFlight: null});
   update = () => this.setState({height: window.innerHeight});
   handleToPurchase = () => this.props.history.replace('/purchase', {selectedFlight: this.state.selectedFlight});
-  handleOriginChange = value => this.setState({selectedOrigin: value}, () => this.fetchFilteredFlights());
-  handleDestinationChange = value => this.setState({selectedDestination: value}, () => this.fetchFilteredFlights());
+  handleOriginChange = value => this.setState({selectedOrigin: value}, () => {
+    this.fetchFilteredFlights();
+    this.updateExclusiveDestination(value);
+  });
+  handleDestinationChange = value => this.setState({selectedDestination: value}, () => {
+    this.fetchFilteredFlights();
+    this.updateExclusiveOrigin(value);
+  });
   handleDepartureDateChange = value => this.setState({selectedDepartureDate: value}, () => this.fetchFilteredFlights());
   handlePriceSliderChange = value => this.setState({selectedPriceRange: value}, () => this.fetchFilteredFlights());
 
@@ -193,7 +210,7 @@ class Filter extends Component {
                   disabled={isNil(this.state.selectedFlight)}
                   className="form-submit to-purchase-button"
                   onClick={this.handleToPurchase.bind(this)}>
-            Purchase that shit
+            Buy
           </button>
         </div>
       </div>;
@@ -208,14 +225,10 @@ class Filter extends Component {
                          loading={this.state.isLoading}/>
         </div>
         <div className="filter-container">
-          <div className="header">
-            Ticket booking system, book your dream trip, innit
-          </div>
+          <Header headerText="FlightScanner"/>
           <div className="middle">
             <div className="middle-head">
-              <div className="middle-title">
-                Search a flight you desire
-              </div>
+              <TitleBar titleText="Search your flight"/>
               <div className="middle-origin-destination-filters">
                 <div className="middle-origin-destination-filters-label"> Origin:</div>
                 <Select style={{width: '100%'}}
@@ -239,9 +252,7 @@ class Filter extends Component {
             </div>
             {middleBody}
           </div>
-          <div className="footer">
-            Contact info: mista V from building 24
-          </div>
+          <Footer footerText="© FlightScanner Ltd 2018-2019"/>
         </div>
       </div>
     );
