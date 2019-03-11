@@ -17,7 +17,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql STRICT;
 
-CREATE OR REPLACE FUNCTION random_pick()
+CREATE OR REPLACE FUNCTION random_city()
   RETURNS VARCHAR AS
 $func$
 DECLARE
@@ -33,8 +33,8 @@ BEGIN
     INSERT INTO flight (departure, arrival, origin, destination, price) VALUES
       (now() + (random() * (INTERVAL '30 days')),
        now() + '30 days' + (random() * (INTERVAL '30 days')),
-       random_pick(),
-       random_pick(),
+       random_city(),
+       random_city(),
        random_between(1, 100));
   END LOOP;
 END; $$;
