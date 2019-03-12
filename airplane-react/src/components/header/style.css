@@ -1,11 +1,9 @@
 .header {
-    font-family: 'Roboto', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: #374F7D;
-    height: 3em;
-    padding-left: 10px;
+    height: 2.4em;
     color: white;
-    font-size: x-large;
+    font-size: 2rem;
 }

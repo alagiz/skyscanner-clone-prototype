@@ -158,7 +158,7 @@ class Filter extends Component {
       }
     ];
     const flightsTable = <Table columns={flightsTableColumns}
-                                scroll={{y: this.state.height / 2.2}}
+                                scroll={{y: this.state.height / 2.3}}
                                 rowKey={(record, index) => record.id}
                                 rowClassName={ (record, index) => this.state.selectedRowIndex === record.id ? 'selected-row' : ''}
                                 onRow={(record, rowIndex) => {
