@@ -17,7 +17,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - '/usr/src/app/node_modules'
-    command: npm start -p 3000 -b '0.0.0.0'
+    command: ["./wait-for-it.sh", "airplane-spring-boot:3001", "--", "npm", "start", "-p", "3000", "-b", "0.0.0.0"]
     ports:
       - "3000:3000"
     environment:
@@ -30,7 +30,7 @@ services:
       context: ./airplane-spring-boot
       dockerfile: Dockerfile
     restart: always
-    entrypoint: ["java",  "-jar", "/app.jar"]
+    command: ["./wait-for-it.sh", "postgres:5432", "--", "java",  "-jar", "/app.jar"]
     depends_on:
       - postgres
     ports:

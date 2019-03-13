@@ -71,7 +71,7 @@ class Filter extends Component {
 
     return !(isNil(selectedOrigin) || isNil(selectedDestination) || isEmpty(selectedPriceRange) || isNil(selectedDepartureDate));
   };
-  resetSelection = () => this.setState({selectedRowIndex: null, selectedFlight: null});
+  resetSelection = () => this.setState({selectedRowId: null, selectedFlight: null});
   updateHeight = () => this.setState({height: window.innerHeight});
   handleToPurchase = () => this.props.history.replace('/purchase', {selectedFlight: this.state.selectedFlight});
   handleOriginChange = value => this.setState({selectedOrigin: value}, () => this.fetchFilteredFlights());
@@ -160,14 +160,14 @@ class Filter extends Component {
     const flightsTable = <Table columns={flightsTableColumns}
                                 scroll={{y: this.state.height / 2.3}}
                                 rowKey={(record, index) => record.id}
-                                rowClassName={ (record, index) => this.state.selectedRowIndex === record.id ? 'selected-row' : ''}
+                                rowClassName={ (record, index) => this.state.selectedRowId === record.id ? 'selected-row' : ''}
                                 onRow={(record, rowIndex) => {
                                   return {
                                     onClick: event => {
-                                      const isDeselecting = this.state.selectedRowIndex === rowIndex;
+                                      const isDeselecting = this.state.selectedRowId === record.id;
 
                                       this.setState({
-                                        selectedRowIndex: isDeselecting ? null : record.id,
+                                        selectedRowId: isDeselecting ? null : record.id,
                                         selectedFlight: isDeselecting ? null : this.state.flights.find(flight => flight.id === record.id)
                                       })
                                     }
