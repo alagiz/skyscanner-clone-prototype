@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Rest controller, provides /flight endpoint
+ * Rest controller, provides /flights endpoint
  */
 @CrossOrigin()
 @RestController
