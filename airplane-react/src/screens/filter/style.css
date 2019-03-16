@@ -140,7 +140,6 @@
 .middle-button-container {
     display: flex;
     justify-content: flex-end;
-    padding-bottom: 8px;
 }
 
 .to-purchase-button {
