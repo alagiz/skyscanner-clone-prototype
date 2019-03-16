@@ -82,6 +82,7 @@ class Filter extends Component {
   fetchFilteredFlights = () => {
     if (this.isDataForFlightFetchingDefined()) {
       this.resetSelection();
+      this.setState({isLoading: true});
 
       axios.get(`${backendUrl}/flights/byOriginAndDestinationAndMinPriceMaxPriceAndDepartureDate`, {
         params: {
