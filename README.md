@@ -1,4 +1,4 @@
-# Skyscanner clome prototype
+# Skyscanner clone prototype
 
 # Design
 * There are three Docker containers - one with React app, one with Spring Boot app and one with Postgres db
