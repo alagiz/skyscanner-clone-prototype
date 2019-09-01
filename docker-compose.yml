@@ -23,6 +23,7 @@ services:
     restart: always
     environment:
       - NODE_ENV=development
+      - REACT_APP_BACKEND_URL=http://localhost:3001
     tty: true
     depends_on:
       - airplane-spring-boot

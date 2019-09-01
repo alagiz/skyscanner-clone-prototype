@@ -11,7 +11,7 @@ import Header from '../../components/header/component';
 import Footer from '../../components/footer/component';
 import TitleBar from '../../components/title-bar/component';
 
-const backendUrl = `http://${window.location.hostname}:3001`;
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
 const Option = Select.Option;
 
