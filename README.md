@@ -18,10 +18,21 @@
 * In core folder run
   * [to start the app]:
     ```
-    $ docker-compose up 
+    docker-compose up 
     ```
 * Visit http://localhost:3000/ [Linux, Mac OS and Docker Desktop on Windows 10] or http://[host-ip]:3000 [Docker Toolbox] (default is http://192.168.99.100:3000/)
   * To get docker host ip with Docker Toolbox run
     ```
-    $ docker-machine ip
+    docker-machine ip
     ```  
+# Deployment
+* The app deployed to Docker Swarm cluster running on a single node (AWS EC2 micro)
+* The following commands were used to deploy the app:
+  * Create Docker swarm cluster
+    ```
+    docker swarm init --advertise-addr 172.31.19.6
+    ```
+  * Create stack of services for skyscanner-clone-prototype
+    ```
+    env HOST_IP=3.14.147.254 docker stack deploy -c docker-compose.depl.yml skyscannerStackk
+    ```
