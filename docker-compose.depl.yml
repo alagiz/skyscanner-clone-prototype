@@ -1,7 +1,7 @@
 version: '3.2'
 services:
   postgres:
-    image: skyscanner-clone_postgres
+    image: alagiz/skyscanner-clone_postgres:latest
     environment:
       POSTGRES_DB: air
       POSTGRES_PASSWORD: airlock
@@ -10,7 +10,7 @@ services:
     ports:
       - "5432:5432"
   airplane-react:
-    image: skyscanner-clone_airplane-react
+    image: alagiz/skyscanner-clone_airplane-react:latest
     ports:
       - "3000:80"
     restart: always
@@ -20,7 +20,7 @@ services:
     depends_on:
       - airplane-spring-boot
   airplane-spring-boot:
-    image: skyscanner-clone_airplane-spring-boot
+    image: alagiz/skyscanner-clone_airplane-spring-boot:latest
     restart: always
     command: ["./wait-for-it.sh", "postgres:5432", "--", "java",  "-jar", "/app.jar"]
     depends_on:
