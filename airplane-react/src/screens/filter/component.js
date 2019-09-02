@@ -218,7 +218,7 @@ class Filter extends Component {
       <div className="wrapper">
         <div className={this.state.isLoading ? 'overlay' : 'hidden'}/>
         <div className={this.state.isLoading ? 'loader-container' : 'hidden'}>
-          <FillSpinner size={200}
+          <FillSpinner size={50}
                          color="#374F7D"
                          loading={this.state.isLoading}/>
         </div>
