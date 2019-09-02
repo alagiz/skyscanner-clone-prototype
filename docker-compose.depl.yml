@@ -11,16 +11,12 @@ services:
       - "5432:5432"
   airplane-react:
     image: skyscanner-clone_airplane-react
-    volumes:
-      - '/usr/src/app/node_modules'
-    command: ["./wait-for-it.sh", "airplane-spring-boot:3001", "--", "npm", "start", "-p", "3000", "-b", "0.0.0.0"]
     ports:
-      - "3000:3000"
+      - "3000:80"
     restart: always
     environment:
       - NODE_ENV=development
-      - REACT_APP_BACKEND_URL=http://${HOST_IP}:3001
-    tty: true
+      - BACKEND_URL=http://${HOST_IP}:3001
     depends_on:
       - airplane-spring-boot
   airplane-spring-boot:

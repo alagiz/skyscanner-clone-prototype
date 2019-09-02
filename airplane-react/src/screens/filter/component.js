@@ -3,7 +3,7 @@ import axios from 'axios';
 import moment from 'moment';
 import {DatePicker, Select, Slider, Table} from 'antd';
 import {isEmpty, isNil} from 'ramda';
-import {SpiralSpinner} from 'react-spinners-kit';
+import {FillSpinner} from 'react-spinners-kit';
 import 'antd/dist/antd.css';
 import './style.css';
 
@@ -11,7 +11,7 @@ import Header from '../../components/header/component';
 import Footer from '../../components/footer/component';
 import TitleBar from '../../components/title-bar/component';
 
-const backendUrl = process.env.REACT_APP_BACKEND_URL;
+const backendUrl = window._env_.BACKEND_URL;
 
 const Option = Select.Option;
 
@@ -218,9 +218,8 @@ class Filter extends Component {
       <div className="wrapper">
         <div className={this.state.isLoading ? 'overlay' : 'hidden'}/>
         <div className={this.state.isLoading ? 'loader-container' : 'hidden'}>
-          <SpiralSpinner size={200}
-                         frontColor="#0AA8FB"
-                         backColor="#374F7D"
+          <FillSpinner size={200}
+                         color="#374F7D"
                          loading={this.state.isLoading}/>
         </div>
         <div className="filter-container">
