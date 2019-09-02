@@ -36,3 +36,5 @@
     ```
     env HOST_IP=3.14.147.254 docker stack deploy -c docker-compose.depl.yml skyscannerStackk
     ```
+# CI/CD
+ to be done
