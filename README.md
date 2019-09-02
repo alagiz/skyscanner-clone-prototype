@@ -1,5 +1,7 @@
 # Skyscanner clone prototype
 
+[aws-deployed-version](http://ec2-3-14-147-254.us-east-2.compute.amazonaws.com:3000/)
+
 # Design
 * There are three Docker containers - one with React app, one with Spring Boot app and one with Postgres db
 * When the app starts - db is populated with random flight data
