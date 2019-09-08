@@ -7,23 +7,47 @@ services:
       POSTGRES_PASSWORD: airlock
     volumes:
       - /var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 150M
+        reservations:
+          cpus: '0.1'
+          memory: 10M
     ports:
       - "5432:5432"
   airplane-react:
     image: alagiz/skyscanner-clone_airplane-react:latest
-    ports:
-      - "3000:80"
     restart: always
     environment:
       - NODE_ENV=development
       - BACKEND_URL=http://${HOST_IP}:3001
     depends_on:
       - airplane-spring-boot
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 150M
+        reservations:
+          cpus: '0.1'
+          memory: 10M
+    ports:
+      - "3000:80"
   airplane-spring-boot:
     image: alagiz/skyscanner-clone_airplane-spring-boot:latest
     restart: always
     command: ["./wait-for-it.sh", "postgres:5432", "--", "java",  "-jar", "/app.jar"]
     depends_on:
       - postgres
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 350M
+        reservations:
+          cpus: '0.1'
+          memory: 10M
     ports:
       - "3001:8080"
