@@ -7,8 +7,8 @@ microservices based prototype of skyscanner clone
 * There are three Docker containers - one with React app, one with Spring Boot app and one with Postgres db
 * When the app starts - db is populated with random flight data
 * Containers are waiting for each other with help of wait-for-it.sh
-  * React app waits for Spring Boot app to be ready
   * Spring Boot app waits for Postgres db to be ready
+  * React app waits for Spring Boot app to be ready
 
 # Usage with Docker
 * Prerequisites:
