@@ -27,7 +27,7 @@ microservices based prototype of skyscanner clone
     docker-machine ip
     ```  
 # Deployment
-* The app is deployed to Docker Swarm cluster running on a single node (AWS EC2 micro)
+* The app is deployed to Docker Swarm cluster running on a single node (AWS EC2 t2.micro)
 * The following commands were used to deploy the app:
   * Create Docker swarm cluster
     ```
