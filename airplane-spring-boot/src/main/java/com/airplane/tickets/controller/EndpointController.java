@@ -51,4 +51,9 @@ public class EndpointController {
     public List<String> getDestinations() {
         return flightService.getAllDestinations();
     }
+
+    @PostMapping(value = "/add-flights")
+    public void addFlights(@RequestParam("numberOfFlights") int numberOfFlights) {
+        flightService.addFlights(numberOfFlights);
+    }
 }
