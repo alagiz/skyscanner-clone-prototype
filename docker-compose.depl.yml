@@ -34,7 +34,7 @@ services:
           cpus: '0.1'
           memory: 10M
     ports:
-      - "3000:80"
+      - "3333:80"
   airplane-spring-boot:
     image: alagiz/skyscanner-clone_airplane-spring-boot:latest
     restart: always
