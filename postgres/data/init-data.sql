@@ -21,7 +21,7 @@ CREATE OR REPLACE FUNCTION random_exclusive_city(city_to_exclude VARCHAR)
   RETURNS VARCHAR AS
 $func$
 DECLARE
-  city           VARCHAR [] := '{Amsterdam,Milan,London,Oslo,Vienna,Porto,Venice,Lyon,Edinburgh,Stockholm,Athens}';
+  city           VARCHAR [] := '{Amsterdam,Milan,London,Oslo,Vienna,Porto,Venice,Lyon,Edinburgh,Stockholm,Athens,Eindhoven,Moscow,Dublin,Utrecht,Kiev}';
   city_to_return VARCHAR;
 BEGIN
   city_to_return := city [random_int_between(1, 10)];
