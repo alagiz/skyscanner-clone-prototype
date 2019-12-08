@@ -85,11 +85,11 @@ public class FlightService {
     private void addFlight() {
         Flight flight = new Flight();
 
-        int randomNumberOrigin = getRandomNumberNotEqualTo(0, cityList.size(), -1);
-        int randomNumberDestination = getRandomNumberNotEqualTo(0, cityList.size(), randomNumberOrigin);
+        int randomNumberOrigin = getRandomNumberInRangeNotEqualTo(0, cityList.size(), -1);
+        int randomNumberDestination = getRandomNumberInRangeNotEqualTo(0, cityList.size(), randomNumberOrigin);
         Timestamp now = new Timestamp(System.currentTimeMillis());
 
-        Double price = (double) getRandomNumberInRange(10, 200);
+        Double price = (double) getRandomNumberInRange(10, 100);
         String origin = cityList.get(randomNumberOrigin);
         String destination = cityList.get(randomNumberDestination);
         Timestamp departure = from(now.toInstant().plus(getRandomNumberInRange(1, 500), ChronoUnit.HOURS));
@@ -112,7 +112,7 @@ public class FlightService {
         return random.nextInt(maxNumber - minNumber) + minNumber;
     }
 
-    private int getRandomNumberNotEqualTo(int minNumber, int maxNumber, int notEqualToNumber) {
+    private int getRandomNumberInRangeNotEqualTo(int minNumber, int maxNumber, int notEqualToNumber) {
         int randomNumber = getRandomNumberInRange(minNumber, maxNumber);
 
         while (randomNumber == notEqualToNumber) {
