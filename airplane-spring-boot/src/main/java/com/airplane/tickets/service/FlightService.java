@@ -92,7 +92,7 @@ public class FlightService {
         Double price = (double) getRandomNumberInRange(10, 100);
         String origin = cityList.get(randomNumberOrigin);
         String destination = cityList.get(randomNumberDestination);
-        Timestamp departure = from(now.toInstant().plus(getRandomNumberInRange(1, 500), ChronoUnit.HOURS));
+        Timestamp departure = from(now.toInstant().plus(getRandomNumberInRange(1, 1000), ChronoUnit.HOURS));
         Timestamp arrival = from(departure.toInstant().plus(getRandomNumberInRange(1, 1000), ChronoUnit.HOURS));
 
         System.out.println(arrival.toLocalDateTime());
