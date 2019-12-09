@@ -54,6 +54,6 @@ public class EndpointController {
 
     @PostMapping(value = "/add-flights")
     public void addFlights(@RequestParam("numberOfFlights") int numberOfFlights) {
-        flightService.addFlights(numberOfFlights);
+        new Thread(() -> flightService.addFlights(numberOfFlights)).start();
     }
 }
