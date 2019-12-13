@@ -4,7 +4,10 @@ import com.airplane.tickets.model.Flight;
 import com.airplane.tickets.repository.IFlightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.sql.Timestamp;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -38,9 +41,13 @@ public class FlightService {
             "Kiev")
             .collect(Collectors.toList());
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Autowired
-    public FlightService(IFlightRepository iFlightRepository) {
+    public FlightService(IFlightRepository iFlightRepository, EntityManager entityManager) {
         this.iFlightRepository = iFlightRepository;
+        this.entityManager = entityManager;
     }
 
     public List<Flight> getFlightsByOriginAndDestinationAndMinPriceMaxPriceAndDepartureDate(
@@ -77,12 +84,22 @@ public class FlightService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public void addFlights(int numberOfFlights) {
         IntStream.range(0, numberOfFlights)
-                .forEach(index -> addFlight());
+                .forEach(index -> {
+                    if (index % 50 == 0) {
+                        entityManager.flush();
+                        entityManager.clear();
+                    }
+
+                    iFlightRepository.save(addFlight());
+                });
+
+        entityManager.flush();
     }
 
-    private void addFlight() {
+    private Flight addFlight() {
         Flight flight = new Flight();
 
         int randomNumberOrigin = getRandomNumberInRangeNotEqualTo(0, cityList.size(), -1);
@@ -95,15 +112,13 @@ public class FlightService {
         Timestamp departure = from(now.toInstant().plus(getRandomNumberInRange(1, 1000), ChronoUnit.HOURS));
         Timestamp arrival = from(departure.toInstant().plus(getRandomNumberInRange(1, 1000), ChronoUnit.HOURS));
 
-        System.out.println(arrival.toLocalDateTime());
-
         flight.setOrigin(origin);
         flight.setDestination(destination);
         flight.setArrival(arrival);
         flight.setDeparture(departure);
         flight.setPrice(price);
 
-        iFlightRepository.save(flight);
+        return flight;
     }
 
     private int getRandomNumberInRange(int minNumber, int maxNumber) {
