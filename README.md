@@ -1,7 +1,7 @@
 # Skyscanner clone prototype
 microservices based prototype of skyscanner clone
 
-[aws-deployed-version](http://ec2-3-13-45-208.us-east-2.compute.amazonaws.com:3000/)
+[aws-deployed-version](http://ec2-3-13-45-208.us-east-2.compute.amazonaws.com:3333/)
 
 # Design
 * There are three Docker containers - one with React app, one with Spring Boot app and one with Postgres db
