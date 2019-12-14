@@ -78,6 +78,11 @@ public class FlightService {
     }
 
     @Transactional
+    public void deleteFlightWithDepartureBefore(Long departureDate) {
+        iFlightRepository.removeByDepartureLessThanEqual(new Timestamp(departureDate));
+    }
+
+    @Transactional
     public void addFlights(int numberOfFlights) {
         IntStream.range(0, numberOfFlights)
                 .forEach(index -> {

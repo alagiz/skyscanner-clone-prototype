@@ -53,7 +53,12 @@ public class EndpointController {
     }
 
     @PostMapping(value = "/add-flights")
-    public void addFlights(@RequestParam("numberOfFlights") int numberOfFlights) {
+    public void addFlights(@RequestParam("numberOfFlights") final int numberOfFlights) {
         new Thread(() -> flightService.addFlights(numberOfFlights)).start();
+    }
+
+    @DeleteMapping(value = "/delete-flights")
+    public void deleteFlights(@RequestParam("departureDate") final Long departureDate) {
+        new Thread(() -> flightService.deleteFlightWithDepartureBefore(departureDate)).start();
     }
 }
