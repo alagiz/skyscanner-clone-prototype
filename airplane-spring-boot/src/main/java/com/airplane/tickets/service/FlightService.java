@@ -15,7 +15,6 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import static java.sql.Timestamp.from;
 
@@ -71,17 +70,11 @@ public class FlightService {
     }
 
     public List<String> getAllOrigins() {
-        return StreamSupport.stream(iFlightRepository.findAll().spliterator(), false)
-                .map(Flight::getOrigin)
-                .distinct()
-                .collect(Collectors.toList());
+        return iFlightRepository.findDistinctOrigin();
     }
 
     public List<String> getAllDestinations() {
-        return StreamSupport.stream(iFlightRepository.findAll().spliterator(), false)
-                .map(Flight::getDestination)
-                .distinct()
-                .collect(Collectors.toList());
+        return iFlightRepository.findDistinctDestination();
     }
 
     @Transactional
