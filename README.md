@@ -1,5 +1,5 @@
 # Skyscanner clone prototype
-microservices based prototype of skyscanner clone
+microservices based prototype of skyscanner clone 
 
 [aws-deployed-version](http://ec2-3-13-45-208.us-east-2.compute.amazonaws.com:3333/)
 
